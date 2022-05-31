@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <title></title>
+    <script type="text/javascript">
+
+        function loadXMLDoc()
+        {
+            var xmlhttp;
+            xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState===4 && xmlhttp.status===200)
+                {
+                    var myArr = JSON.parse(this.responseText);
+                    document.getElementById("alcohol").value=myArr.alcohol;
+                    document.getElementById("pulse").value=myArr.pulse1;
+                    document.getElementById("temperature").value=myArr.temperature;
+                }
+            }
+            xmlhttp.open("GET","/index",true);
+            xmlhttp.send();
+        }
+        function button_data(item)
+        {
+            var xmlhttp;
+            xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState===4 && xmlhttp.status===200)
+                {
+                    var myArr = JSON.parse(this.responseText);
+                    window.alert(myArr.status);
+                }
+            }
+            xmlhttp.open("GET","/"+item,true);
+            xmlhttp.send();
+        }
+//Ajax定时访问服务端，不断获取数据 ，每0.5秒请求一次。
+    window.setInterval(loadXMLDoc,500);
+
+</script>
+    <style>
+    .myInput{
+        width:80px;
+        height:30px;
+        font-size:15pt ;
+        text-align:center;
+    }
+    </style>
+
+</head>
+
+<body style="text-align:center;">
+<div style="border:3px solid #000;width: 50%;height: 500px;background-color: antiquewhite;margin:0 auto">
+    <div style="margin:0px auto"><h1>智能酒驾检测系统</h1></div>
+    <div style="display: inline-block"><h2>血液酒精的浓度为:</h2></div>
+    <div id="alcoholTxt" style="display: inline-block"><input class="myInput" readonly="readonly" id="alcohol" ></div>
+    <div style="display: inline-block"><h2>mg/dL</h2></div><div></div>
+
+    <div style="display: inline-block"><h2>心率的值为:</h2></div>
+    <div id="pulseTxt" style="display: inline-block"><input class="myInput" readonly="readonly" id="pulse" ></div>
+    <div style="display: inline-block"><h2>BPM</h2></div><div></div>
+
+    <div style="display: inline-block"><h2>温度的值为:</h2></div>
+    <div id="temperatureTxt" style="display: inline-block"><input class="myInput" readonly="readonly" id="temperature" ></div>
+    <div style="display: inline-block"><h2>摄氏度</h2></div><div></div>
+
+    <button onclick="button_data('one')" style="width: 120px;height: 60px">开</button>
+    <button onclick="button_data('two')" style="width: 120px;height: 60px">关</button>
+</div>
+</body>
+</html>
